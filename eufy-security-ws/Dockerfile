@@ -9,7 +9,6 @@ RUN \
     # The Alpine 3.23 base image (see build.yaml) ships Node.js 24 in its main
     # repository, so nodejs/npm install directly with no edge-repo workarounds.
     && apk add --no-cache \
-        git \
         jq \
         nodejs \
         npm \
@@ -21,7 +20,7 @@ RUN \
     # Override eufy-security-client with a patched fork that fixes the
     # OUTDOOR_PT_CAMERA enabled-state sync regression (issue #916).
     && npm install --force \
-    "eufy-security-client@github:stephanevalk/eufy-security-client#fix/outdoor-pt-cloud-sync"
+    "eufy-security-client@https://github.com/stephanevalk/eufy-security-client/archive/refs/heads/fix/outdoor-pt-cloud-sync.tar.gz"
 
 COPY run.sh /
 RUN chmod a+x /run.sh
