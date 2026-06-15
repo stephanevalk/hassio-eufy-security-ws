@@ -9,6 +9,7 @@ RUN \
     # The Alpine 3.23 base image (see build.yaml) ships Node.js 24 in its main
     # repository, so nodejs/npm install directly with no edge-repo workarounds.
     && apk add --no-cache \
+        git \
         jq \
         nodejs \
         npm \
