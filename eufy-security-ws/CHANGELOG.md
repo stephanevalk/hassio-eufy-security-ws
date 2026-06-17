@@ -1,3 +1,14 @@
+## 3.0.1-patch3
+
+- Patched bundled `eufy-security-client` to fix SoloCam S340 (T8170) disable
+  state not syncing to the Eufy mobile app, a regression from
+  [bropat/eufy-security-client#873](https://github.com/bropat/eufy-security-client/pull/873).
+  `enableDevice()` now sends the raw `CMD_DEVS_SWITCH` (1035) P2P command for
+  the S340 (alongside the 6250 privacy envelope kept for the S4/T8172), so the
+  HomeBase 3 updates param 1035 and pushes the change to the app live.
+  Upstream fix: [bropat/eufy-security-client#919](https://github.com/bropat/eufy-security-client/pull/919)
+  (issue [#916](https://github.com/bropat/eufy-security-client/issues/916)).
+
 ## 1.9.7
 - Updated eufy-security-ws to version [`1.9.7`](https://github.com/bropat/eufy-security-ws/releases/tag/1.9.7)
 

@@ -20,6 +20,13 @@ It bridges events and allows you to control your Eufy devices via websocket. In 
 
 See Documentation tab for more details.
 
+> **Patched fork note:** This build (`3.0.1-patch3`) bundles a patched
+> `eufy-security-client` that fixes SoloCam **S340 (T8170)** disable state not
+> syncing to the Eufy mobile app — a regression from
+> [eufy-security-client#873](https://github.com/bropat/eufy-security-client/pull/873).
+> Upstream fix: [eufy-security-client#919](https://github.com/bropat/eufy-security-client/pull/919)
+> (issue [#916](https://github.com/bropat/eufy-security-client/issues/916)).
+
 [logo]: https://raw.githubusercontent.com/bropat/hassio-eufy-security-ws/master/eufy-security-ws/logo.png
 [docker-amd64-shield]: https://img.shields.io/docker/pulls/bropat/hassio-eufy-security-ws-amd64?label=docker%20pulls%20amd64&logo=docker
 [docker-amd64]: https://hub.docker.com/repository/docker/bropat/hassio-eufy-security-ws-amd64/general
