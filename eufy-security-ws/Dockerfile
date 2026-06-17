@@ -20,7 +20,7 @@ RUN \
     # Patch eufy-security-client in-place: overwrite the two compiled JS files
     # that fix the OUTDOOR_PT_CAMERA enabled-state sync regression (issue #916).
     # Using wget on the raw compiled files avoids needing git or a full reinstall.
-    && PATCH_BASE="https://raw.githubusercontent.com/stephanevalk/eufy-security-client/b25a374a2a6a20f0ddcbbff8fc7139541f31981e/build/http" \
+    && PATCH_BASE="https://raw.githubusercontent.com/stephanevalk/eufy-security-client/8543f745aa282e71599abda1ce951616bffc09a5/build/http" \
     && wget -q -O node_modules/eufy-security-client/build/http/types.js  "${PATCH_BASE}/types.js" \
     && wget -q -O node_modules/eufy-security-client/build/http/station.js "${PATCH_BASE}/station.js"
 
