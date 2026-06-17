@@ -1,6 +1,6 @@
 name: eufy-security-ws (patched)
 description: Allows you to control Eufy security devices over websocket by connecting to the Eufy cloud servers and local/remote stations
-version: 3.0.1
+version: "3.0.1-patch2"
 slug: "eufy_security_ws_patched"
 url: https://github.com/stephanevalk/hassio-eufy-security-ws
 init: false

@@ -16,13 +16,14 @@ RUN \
     # Fail the build if the base ever regresses below Node 24.
     && case "$(node --version)" in v24.*) ;; *) echo "Expected Node 24, got $(node --version)" >&2; exit 1 ;; esac \
     && npm install --force \
-    "eufy-security-ws@${EUFY_SECURITY_WS_VERSION}" \
-    # Patch eufy-security-client in-place: overwrite the two compiled JS files
-    # that fix the OUTDOOR_PT_CAMERA enabled-state sync regression (issue #916).
-    # Using wget on the raw compiled files avoids needing git or a full reinstall.
-    && PATCH_BASE="https://raw.githubusercontent.com/stephanevalk/eufy-security-client/32c5847b837f1646c96446fcf9b7a4ff6e8d73b9/build/http" \
-    && wget -q -O node_modules/eufy-security-client/build/http/types.js  "${PATCH_BASE}/types.js" \
-    && wget -q -O node_modules/eufy-security-client/build/http/station.js "${PATCH_BASE}/station.js"
+    "eufy-security-ws@${EUFY_SECURITY_WS_VERSION}"
+
+# Patch eufy-security-client in-place: overwrite the two compiled JS files that
+# fix the OUTDOOR_PT_CAMERA (S340) enabled-state sync regression (issue #916).
+# The patched files are bundled in this repo (patch/) and copied in directly,
+# so the build has no dependency on GitHub raw / CDN availability.
+COPY patch/types.js   node_modules/eufy-security-client/build/http/types.js
+COPY patch/station.js node_modules/eufy-security-client/build/http/station.js
 
 COPY run.sh /
 RUN chmod a+x /run.sh
