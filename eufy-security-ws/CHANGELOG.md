@@ -6,7 +6,7 @@
   `enableDevice()` now sends the raw `CMD_DEVS_SWITCH` (1035) P2P command for
   the S340 (alongside the 6250 privacy envelope kept for the S4/T8172), so the
   HomeBase 3 updates param 1035 and pushes the change to the app live.
-  Upstream fix: [bropat/eufy-security-client#919](https://github.com/bropat/eufy-security-client/pull/919)
+  Upstream fix: [bropat/eufy-security-client#920](https://github.com/bropat/eufy-security-client/pull/920)
   (issue [#916](https://github.com/bropat/eufy-security-client/issues/916)).
 
 ## 1.9.7

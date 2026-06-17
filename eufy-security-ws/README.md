@@ -24,7 +24,7 @@ See Documentation tab for more details.
 > `eufy-security-client` that fixes SoloCam **S340 (T8170)** disable state not
 > syncing to the Eufy mobile app — a regression from
 > [eufy-security-client#873](https://github.com/bropat/eufy-security-client/pull/873).
-> Upstream fix: [eufy-security-client#919](https://github.com/bropat/eufy-security-client/pull/919)
+> Upstream fix: [eufy-security-client#920](https://github.com/bropat/eufy-security-client/pull/920)
 > (issue [#916](https://github.com/bropat/eufy-security-client/issues/916)).
 
 [logo]: https://raw.githubusercontent.com/bropat/hassio-eufy-security-ws/master/eufy-security-ws/logo.png
