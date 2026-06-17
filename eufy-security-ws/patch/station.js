@@ -6394,12 +6394,25 @@ class Station extends tiny_typed_emitter_1.TypedEmitter {
             });
         }
         else if (device.isOutdoorPanAndTiltCamera()) {
-            // Outdoor pan/tilt cams (eufyCam S4 / T8172 etc.) behind a HomeBase 3
-            // silently drop raw CMD_DEVS_SWITCH frames. Pcap comparison against
-            // the iOS Eufy app shows they accept the same wrapped envelope as
-            // INDOOR_PT_CAMERA_S350 — outer CMD_SET_PAYLOAD carrying inner
-            // CMD_INDOOR_ENABLE_PRIVACY_MODE_S350.
+            // Outdoor pan/tilt cams (type 48) cover both the S340 (T8170) and the
+            // S4 (T8172). They behave differently:
+            //  - S340: uses the legacy CMD_DEVS_SWITCH (1035) on/off path. The HB3
+            //    processes this raw command, updates param 1035 in the cloud, and
+            //    pushes the change to the Eufy app (so the app reflects it live).
+            //  - S4:   only reacts to the wrapped CMD_INDOOR_ENABLE_PRIVACY_MODE_S350
+            //    (6250) envelope (see #710 / #873); it ignores raw 1035 frames.
+            // Sending both keeps both models working: each cam acts on the command
+            // it understands and ignores the other.
             param_value = value === true ? 0 : 1;
+            this.p2pSession.sendCommandWithIntString({
+                commandType: types_2.CommandType.CMD_DEVS_SWITCH,
+                value: param_value,
+                valueSub: device.getChannel(),
+                strValue: this.rawStation.member.admin_user_id,
+                channel: device.getChannel(),
+            }, {
+                property: propertyData,
+            });
             this.p2pSession.sendCommandWithStringPayload({
                 commandType: types_2.CommandType.CMD_SET_PAYLOAD,
                 value: JSON.stringify({
@@ -6414,21 +6427,6 @@ class Station extends tiny_typed_emitter_1.TypedEmitter {
                 channel: device.getChannel(),
             }, {
                 property: propertyData,
-            });
-            // Sync enabled state to Eufy cloud immediately (do not wait for P2P onSuccess
-            // which may never fire for HB3-connected outdoor PT cameras).
-            this.api.setParameters(this.getSerial(), device.getSerial(), [
-                {
-                    // param_type 1035 (CMD_DEVS_SWITCH) is the cloud-side on/off state the
-                    // Eufy mobile app actually reads and writes. The wrapped privacy-mode
-                    // P2P command (6250) physically toggles the cam but the HB3 no longer
-                    // writes 1035, so the app's enabled state goes stale. Write it
-                    // explicitly here using the same encoding (0 = enabled, 1 = disabled).
-                    paramType: types_2.CommandType.CMD_DEVS_SWITCH,
-                    paramValue: String(param_value),
-                },
-            ]).catch((error) => {
-                logging_1.rootHTTPLogger.error(`Station enable device - cloud sync failed for outdoor PT camera`, { stationSN: this.getSerial(), deviceSN: device.getSerial(), error });
             });
         }
         else {
