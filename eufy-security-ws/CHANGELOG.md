@@ -1,3 +1,15 @@
+## 3.1.0-patch1
+
+- Updated `eufy-security-ws` to `3.1.0`, which pins `eufy-security-client` `4.1.0`
+  (previously `3.0.1` / `4.0.0`). `4.1.0` adds the v6 "eufy_mega" transport used
+  for login and FCM push registration
+  ([bropat/eufy-security-client#939](https://github.com/bropat/eufy-security-client/pull/939)).
+- Regenerated `patch/station.js` from the `4.1.0` build so the S340 fix below is
+  re-applied on top of the new client instead of reverting it to `4.0.0` code.
+- Dropped `patch/types.js`: its only delta against the stock build was a comment,
+  and shipping a `4.0.0` copy would have hidden the new `ResponseErrorCode`
+  entries `4.1.0` needs.
+
 ## 3.0.1-patch3
 
 - Patched bundled `eufy-security-client` to fix SoloCam S340 (T8170) disable

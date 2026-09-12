@@ -18,11 +18,12 @@ RUN \
     && npm install --force \
     "eufy-security-ws@${EUFY_SECURITY_WS_VERSION}"
 
-# Patch eufy-security-client in-place: overwrite the two compiled JS files that
-# fix the OUTDOOR_PT_CAMERA (S340) enabled-state sync regression (issue #916).
-# The patched files are bundled in this repo (patch/) and copied in directly,
+# Patch eufy-security-client in-place: overwrite the compiled JS file that fixes
+# the OUTDOOR_PT_CAMERA (S340) enabled-state sync regression (issue #916).
+# The patched file is bundled in this repo (patch/) and copied in directly,
 # so the build has no dependency on GitHub raw / CDN availability.
-COPY patch/types.js   node_modules/eufy-security-client/build/http/types.js
+# Rebuild patch/station.js from the matching client release whenever
+# EUFY_SECURITY_WS_VERSION changes -- it is a full copy, not a delta.
 COPY patch/station.js node_modules/eufy-security-client/build/http/station.js
 
 COPY run.sh /

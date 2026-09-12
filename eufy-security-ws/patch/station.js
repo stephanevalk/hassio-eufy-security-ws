@@ -81,6 +81,7 @@ class Station extends tiny_typed_emitter_1.TypedEmitter {
         this.p2pSession.on("storage info hb3", (channel, storageInfo) => this.onStorageInfoHB3(channel, storageInfo));
         this.p2pSession.on("sequence error", (channel, command, sequence, serialnumber) => this.onSequenceError(channel, command, sequence, serialnumber));
         this.p2pSession.on("hub notify update", () => this.onHubNotifyUpdate());
+        this.p2pSession.on("push notification", (message) => this.onPushNotification(message));
     }
     initializeState() {
         this.update(this.rawStation);
@@ -15621,6 +15622,9 @@ class Station extends tiny_typed_emitter_1.TypedEmitter {
     }
     onHubNotifyUpdate() {
         this.emit("hub notify update", this);
+    }
+    onPushNotification(message) {
+        this.emit("push notification", this, message);
     }
     updateUsername(device, username, passwordId) {
         const commandData = {
